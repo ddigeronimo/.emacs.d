@@ -1,0 +1,33 @@
+HTTP/1.1 200 OK
+Server: GitHub.com
+Content-Type: image/svg+xml
+Last-Modified: Sat, 01 Jan 2000 00:00:00 GMT
+Expires: Fri, 13 Sep 2019 15:16:40 GMT
+Cache-Control: max-age=31536000, public
+Access-Control-Allow-Origin: *
+Timing-Allow-Origin: *
+Content-Encoding: gzip
+X-GitHub-Request-Id: 5F64:4330:D0E9B:12DAA7:5B9A7F56
+Content-Length: 267
+Accept-Ranges: bytes
+Date: Thu, 13 Sep 2018 17:29:49 GMT
+Via: 1.1 varnish
+Age: 7989
+Connection: keep-alive
+X-Served-By: cache-jfk8134-JFK
+X-Cache: HIT
+X-Cache-Hits: 518
+X-Timer: S1536859790.579626,VS0,VE0
+Vary: Accept-Encoding
+X-Fastly-Request-ID: ff137fd6ee134722399d52047a30461b37811c8f
+
+<svg width="19" height="20" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <defs>
+    <rect id="a" width="19" height="20" rx="3"/>
+  </defs>
+  <g fill="none" fill-rule="evenodd">
+    <use fill="#3F4347" xlink:href="#a"/>
+    <rect stroke="#5F6165" x=".5" y=".5" width="18" height="19" rx="3"/>
+    <path fill="#979A9C" d="M11.76 5.979l-3.8 9.079h-.91l3.78-9.08z"/>
+  </g>
+</svg>

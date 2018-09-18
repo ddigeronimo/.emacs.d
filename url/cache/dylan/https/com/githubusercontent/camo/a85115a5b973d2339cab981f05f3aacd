@@ -1,0 +1,25 @@
+HTTP/1.1 200 OK
+Cache-Control: public, max-age=0, must-revalidate
+Content-Security-Policy: default-src 'none'; img-src data:; style-src 'unsafe-inline'
+Content-Type: image/svg+xml
+Last-Modified: Fri, 11 May 2018 07:25:32 GMT
+Server: github-camo (65c9ebe0)
+Strict-Transport-Security: max-age=31536000; includeSubDomains
+X-Content-Type-Options: nosniff
+X-Frame-Options: deny
+X-Xss-Protection: 1; mode=block
+X-GitHub-Request-Id: EBEC:6CB8:2F6F5:32CD2:5B9A9E8A
+Content-Length: 733
+Accept-Ranges: bytes
+Date: Thu, 13 Sep 2018 17:29:51 GMT
+Via: 1.1 varnish
+Age: 0
+Connection: keep-alive
+X-Served-By: cache-jfk8138-JFK
+X-Cache: MISS
+X-Cache-Hits: 0
+X-Timer: S1536859792.552508,VS0,VE21
+X-Fastly-Request-ID: 05ed937f436d2a3b974147932e892780b5e0ebfb
+Timing-Allow-Origin: https://github.com
+
+<svg xmlns="http://www.w3.org/2000/svg" width="92" height="20"><linearGradient id="b" x2="0" y2="100%"><stop offset="0" stop-color="#bbb" stop-opacity=".1"/><stop offset="1" stop-opacity=".1"/></linearGradient><mask id="a"><rect width="92" height="20" rx="3" fill="#fff"/></mask><g mask="url(#a)"><path fill="#555" d="M0 0h34v20H0z"/><path fill="#46BC99" d="M34 0h58v20H34z"/><path fill="url(#b)" d="M0 0h92v20H0z"/></g><g fill="#fff" text-anchor="middle" font-family="DejaVu Sans,Verdana,Geneva,sans-serif" font-size="11"><text x="17" y="15" fill="#010101" fill-opacity=".3">chat</text><text x="17" y="14">chat</text><text x="62" y="15" fill="#010101" fill-opacity=".3">on gitter</text><text x="62" y="14">on gitter</text></g></svg>

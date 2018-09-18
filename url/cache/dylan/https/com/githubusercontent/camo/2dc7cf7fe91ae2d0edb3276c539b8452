@@ -1,0 +1,25 @@
+HTTP/1.1 200 OK
+Cache-Control: public, max-age=31536000
+Content-Security-Policy: default-src 'none'; img-src data:; style-src 'unsafe-inline'
+Content-Type: image/svg+xml
+Last-Modified: Thu, 09 Aug 2018 19:48:18 GMT
+Server: github-camo (65c9ebe0)
+Strict-Transport-Security: max-age=31536000; includeSubDomains
+X-Content-Type-Options: nosniff
+X-Frame-Options: deny
+X-Xss-Protection: 1; mode=block
+X-GitHub-Request-Id: 72E4:03FC:31C113:36E24D:5B8248E5
+Content-Length: 948
+Accept-Ranges: bytes
+Date: Thu, 13 Sep 2018 17:29:52 GMT
+Via: 1.1 varnish
+Age: 1594775
+Connection: keep-alive
+X-Served-By: cache-jfk8120-JFK
+X-Cache: HIT
+X-Cache-Hits: 1
+X-Timer: S1536859792.160552,VS0,VE1
+X-Fastly-Request-ID: aaa5782789b20a2e665d9857597df0d56df9d374
+Timing-Allow-Origin: https://github.com
+
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="86" height="20"><linearGradient id="b" x2="0" y2="100%"><stop offset="0" stop-color="#bbb" stop-opacity=".1"/><stop offset="1" stop-opacity=".1"/></linearGradient><clipPath id="a"><rect width="86" height="20" rx="3" fill="#fff"/></clipPath><g clip-path="url(#a)"><path fill="#555" d="M0 0h35v20H0z"/><path fill="#4c1" d="M35 0h51v20H35z"/><path fill="url(#b)" d="M0 0h86v20H0z"/></g><g fill="#fff" text-anchor="middle" font-family="DejaVu Sans,Verdana,Geneva,sans-serif" font-size="110"><text x="185" y="150" fill="#010101" fill-opacity=".3" transform="scale(.1)" textLength="250">docs</text><text x="185" y="140" transform="scale(.1)" textLength="250">docs</text><text x="595" y="150" fill="#010101" fill-opacity=".3" transform="scale(.1)" textLength="410">passing</text><text x="595" y="140" transform="scale(.1)" textLength="410">passing</text></g> </svg>
