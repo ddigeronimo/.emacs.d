@@ -7,21 +7,19 @@
 ;; 2) I want to hone Emacs into the perfect tool for me, customizing it to fit my editing style and workflow.
 
 ;; TODO:
-;; 1) Implement some sort of smart parenthesis mode
-;; 2) Setup yasnippet
 
 ;;; Code:
 
 ;; Hide startup screen and start on scratch buffer
 (setq inhibit-startup-screen t)
 
+;; Add margin line numbering
+(global-linum-mode t)
+
 ;; Hide all the bars
 (menu-bar-mode -1)
 (tool-bar-mode -1)
 (scroll-bar-mode -1)
-
-;; When the cursor is positioned over a parenthesis, highlight the matching parenthesis
-(show-paren-mode 1)
 
 ;; Package.el stuff
 (require 'package)
@@ -81,11 +79,10 @@
 ;; Flycheck setup
 ;; flycheck-pos-tip-mode enables Flycheck errors to become popups, ensure that you install flyckeck-pos-tip first
 ;; flycheck-status-emoji-mode replaces 'FlyC' with an emoji on the mode line, ensure that you install flycheck-status-emoji first
-;; flycheck-color-mode-line-mode makes the powerline color change depending on error status.
+
 (with-eval-after-load 'flycheck
   (flycheck-pos-tip-mode)
-  (flycheck-status-emoji-mode)
-  (flycheck-color-mode-line-mode))
+  (flycheck-status-emoji-mode))
 
 ;; Custom stuff below here, don't touch unless absolutely necessary!!!!
 
