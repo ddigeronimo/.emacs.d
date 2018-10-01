@@ -8,7 +8,7 @@
 
 ;; TODO:
 ;; 1) Implement some sort of smart parenthesis mode
-;; 2) Setup Tuareg and Merlin --> See article on integrating with Company mode
+;; 2) Setup yasnippet
 
 ;;; Code:
 
@@ -50,7 +50,8 @@
 (use-package company
   :ensure t)
 (use-package flycheck
-  :ensure t)
+  :ensure t
+  :init (global-flycheck-mode))
 (use-package irony
   :ensure t)
 (use-package neotree
@@ -63,14 +64,11 @@
   :ensure t)
 (use-package yasnippet-snippets
   :ensure t)
-(use-package elpy
-  :ensure t)
 
 
 ;; Helm setup/keybindings
 (helm-mode 1)
 (global-set-key (kbd "M-x") 'helm-M-x)
-(global-set-key (kbd "<menu>") 'helm-M-x)
 (global-set-key (kbd "C-x C-f") 'helm-find-files)
 (global-set-key (kbd "C-x C-b") 'helm-buffers-list)
 
@@ -93,7 +91,6 @@
 ;; flycheck-pos-tip-mode enables Flycheck errors to become popups, ensure that you install flyckeck-pos-tip first
 ;; flycheck-status-emoji-mode replaces 'FlyC' with an emoji on the mode line, ensure that you install flycheck-status-emoji first
 ;; flycheck-color-mode-line-mode makes the powerline color change depending on error status.
-(global-flycheck-mode 1)
 (with-eval-after-load 'flycheck
   (flycheck-pos-tip-mode)
   (flycheck-status-emoji-mode)
@@ -107,11 +104,8 @@
 (defun my-css-mode-hook ()
   (rainbow-mode 1))
 
-;; Yasnippet setup
+;; yasnippet setup
 (yas-global-mode 1)
-
-;; Elpy setup
-(elpy-enable)
 
 ;; Custom stuff below here, don't touch unless absolutely necessary!!!!
 
@@ -166,7 +160,7 @@
     ("#dc322f" "#cb4b16" "#b58900" "#546E00" "#B4C342" "#00629D" "#2aa198" "#d33682" "#6c71c4")))
  '(package-selected-packages
    (quote
-    (yasnippet-snippets yasnippet elpy rainbow-mode which-key flycheck-color-mode-line flycheck-status-emoji flycheck-pos-tip solarized-theme cyberpunk-theme irony flycheck company bubbleberry-theme grandshell-theme 2048-game neotree dracula-theme caroline-theme org helm-ebdb)))
+    (yasnippet elpy rainbow-mode which-key flycheck-color-mode-line flycheck-status-emoji flycheck-pos-tip solarized-theme cyberpunk-theme irony flycheck company bubbleberry-theme grandshell-theme 2048-game neotree dracula-theme caroline-theme org helm-ebdb)))
  '(pos-tip-background-color "#eee8d5")
  '(pos-tip-foreground-color "#586e75")
  '(powerline-color1 "#3d3d68")
