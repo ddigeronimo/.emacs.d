@@ -51,6 +51,10 @@
   :ensure t)
 (use-package flycheck
   :ensure t)
+(use-package flycheck-pos-tip-mode
+  :ensure t)
+(use-package flycheck-status-emoji-mode
+  :ensure t)
 (use-package irony
   :ensure t)
 (use-package neotree
@@ -92,12 +96,10 @@
 ;; Flycheck setup
 ;; flycheck-pos-tip-mode enables Flycheck errors to become popups, ensure that you install flyckeck-pos-tip first
 ;; flycheck-status-emoji-mode replaces 'FlyC' with an emoji on the mode line, ensure that you install flycheck-status-emoji first
-;; flycheck-color-mode-line-mode makes the powerline color change depending on error status.
 (global-flycheck-mode 1)
 (with-eval-after-load 'flycheck
   (flycheck-pos-tip-mode)
-  (flycheck-status-emoji-mode)
-  (flycheck-color-mode-line-mode))
+  (flycheck-status-emoji-mode))
 
 ;; Which-key setup
 (which-key-mode)
