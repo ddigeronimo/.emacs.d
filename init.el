@@ -3,12 +3,13 @@
 
 ;;; Commentary:
 ;; My goals in this Emacs configuration are two-fold:
-;; 1) I want to create the comfiest, most-modern UI possible without sacrificing quality and convienience.
+;; 1) I want to create the comfiest, most-modern UI possible (inspired by Spacemacs, Doom, and VSCode) without sacrificing quality and convienience.
 ;; 2) I want to hone Emacs into the perfect tool for me, customizing it to fit my editing style and workflow.
 
 ;; TODO:
 ;; 1) Implement some sort of smart parenthesis mode
 ;; 2) Setup Tuareg and Merlin --> See article on integrating with Company mode
+;; 3) Install ESLint and get JS error checking going (if it doesn't already work)
 
 ;;; Code:
 
@@ -51,10 +52,10 @@
   :ensure t)
 (use-package flycheck
   :ensure t)
-(use-package flycheck-pos-tip-mode
-  :ensure t)
-(use-package flycheck-status-emoji-mode
-  :ensure t)
+;; (use-package flycheck-pos-tip-mode
+;;   :ensure t)
+;; (use-package flycheck-status-emoji-mode
+;;   :ensure t)
 (use-package irony
   :ensure t)
 (use-package neotree
@@ -69,7 +70,8 @@
   :ensure t)
 (use-package elpy
   :ensure t)
-
+(use-package tuareg
+  :ensure t)
 
 ;; Helm setup/keybindings
 (helm-mode 1)
@@ -115,6 +117,17 @@
 ;; Elpy setup
 (elpy-enable)
 
+;; Merlin setup
+(let ((opam-share (ignore-errors (car (process-lines "opam" "config" "var" "share")))))
+ (when (and opam-share (file-directory-p opam-share))
+  (add-to-list 'load-path (expand-file-name "emacs/site-lisp" opam-share))
+  (autoload 'merlin-mode "merlin" nil t nil)
+  (add-hook 'tuareg-mode-hook 'merlin-mode t)
+  (add-hook 'caml-mode-hook 'merlin-mode t)))
+;; Make company aware of Merlin
+(with-eval-after-load 'company
+  (add-to-list 'company-backends 'merlin-company-backend))
+
 ;; Custom stuff below here, don't touch unless absolutely necessary!!!!
 
 (custom-set-variables
@@ -132,7 +145,7 @@
  '(cua-normal-cursor-color "#657b83")
  '(cua-overwrite-cursor-color "#b58900")
  '(cua-read-only-cursor-color "#859900")
- '(custom-enabled-themes (quote (dracula)))
+ '(custom-enabled-themes (quote (cyberpunk)))
  '(custom-safe-themes
    (quote
     ("8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" "d677ef584c6dfc0697901a44b885cc18e206f05114c8a3b7fde674fce6180879" "d1cc05d755d5a21a31bced25bed40f85d8677e69c73ca365628ce8024827c9e3" "c9b89349d269af4ac5d832759df2f142ae50b0bbbabcce9c0dd53f79008443c9" "3860a842e0bf585df9e5785e06d600a86e8b605e5cc0b74320dfe667bcbe816c" "aaffceb9b0f539b6ad6becb8e96a04f2140c8faa1de8039a343a4f1e009174fb" "abe3405767afe98b35b6a2b212af1fbc34e4f4c455310d2b7f2ffd2ec81d387b" default)))
@@ -168,7 +181,7 @@
     ("#dc322f" "#cb4b16" "#b58900" "#546E00" "#B4C342" "#00629D" "#2aa198" "#d33682" "#6c71c4")))
  '(package-selected-packages
    (quote
-    (yasnippet-snippets yasnippet elpy rainbow-mode which-key flycheck-color-mode-line flycheck-status-emoji flycheck-pos-tip solarized-theme cyberpunk-theme irony flycheck company bubbleberry-theme grandshell-theme 2048-game neotree dracula-theme caroline-theme org helm-ebdb)))
+    (tuareg-mode tuareg yasnippet-snippets yasnippet elpy rainbow-mode which-key flycheck-color-mode-line flycheck-status-emoji flycheck-pos-tip solarized-theme cyberpunk-theme irony flycheck company bubbleberry-theme grandshell-theme 2048-game neotree dracula-theme caroline-theme org helm-ebdb)))
  '(pos-tip-background-color "#eee8d5")
  '(pos-tip-foreground-color "#586e75")
  '(powerline-color1 "#3d3d68")
