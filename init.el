@@ -8,7 +8,6 @@
 
 ;; TODO:
 ;; 1) Implement some sort of smart parenthesis mode
-;; 2) Setup Tuareg and Merlin --> See article on integrating with Company mode
 ;; 3) Install ESLint and get JS error checking going (if it doesn't already work)
 
 ;;; Code:
@@ -21,8 +20,14 @@
 (tool-bar-mode -1)
 (scroll-bar-mode -1)
 
+;; Set cursor to bar style
+(setq-default cursor-type 'bar)
+
 ;; When the cursor is positioned over a parenthesis, highlight the matching parenthesis
 (show-paren-mode 1)
+
+;; Stop Emacs from creating backup files
+(setq make-backup-files nil)
 
 ;; Package.el stuff
 (require 'package)
@@ -72,6 +77,12 @@
   :ensure t)
 (use-package tuareg
   :ensure t)
+(use-package all-the-icons
+  :ensure t)
+(use-package all-the-icons-dired
+  :ensure t)
+(use-package sublimity
+  :ensure t)
 
 ;; Helm setup/keybindings
 (helm-mode 1)
@@ -85,6 +96,7 @@
 
 ;; Neotree
 (global-set-key [f8] 'neotree-toggle)
+(setq neo-theme 'icons)
 
 ;; Company
 (add-hook 'after-init-hook 'global-company-mode)
@@ -128,6 +140,17 @@
 (with-eval-after-load 'company
   (add-to-list 'company-backends 'merlin-company-backend))
 
+;; Make Dired work with icons
+;; (add-hook 'dired-mode-hook 'all-the-icons-dired-mode)
+
+;; Sublimity Mode
+(require 'sublimity-scroll)
+;; (require 'sublimity-map)
+;; (require 'sublimity-attractive)
+(sublimity-mode 1)
+(setq sublimity-scroll-weight 10
+      sublimity-scroll-drift-length 5)
+
 ;; Custom stuff below here, don't touch unless absolutely necessary!!!!
 
 (custom-set-variables
@@ -145,10 +168,10 @@
  '(cua-normal-cursor-color "#657b83")
  '(cua-overwrite-cursor-color "#b58900")
  '(cua-read-only-cursor-color "#859900")
- '(custom-enabled-themes (quote (cyberpunk)))
+ '(custom-enabled-themes (quote (zerodark)))
  '(custom-safe-themes
    (quote
-    ("8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" "d677ef584c6dfc0697901a44b885cc18e206f05114c8a3b7fde674fce6180879" "d1cc05d755d5a21a31bced25bed40f85d8677e69c73ca365628ce8024827c9e3" "c9b89349d269af4ac5d832759df2f142ae50b0bbbabcce9c0dd53f79008443c9" "3860a842e0bf585df9e5785e06d600a86e8b605e5cc0b74320dfe667bcbe816c" "aaffceb9b0f539b6ad6becb8e96a04f2140c8faa1de8039a343a4f1e009174fb" "abe3405767afe98b35b6a2b212af1fbc34e4f4c455310d2b7f2ffd2ec81d387b" default)))
+    ("08ef1356470a9d3bf363ffab0705d90f8a492796e9db489936de4bde6a4fdb19" "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" "d677ef584c6dfc0697901a44b885cc18e206f05114c8a3b7fde674fce6180879" "d1cc05d755d5a21a31bced25bed40f85d8677e69c73ca365628ce8024827c9e3" "c9b89349d269af4ac5d832759df2f142ae50b0bbbabcce9c0dd53f79008443c9" "3860a842e0bf585df9e5785e06d600a86e8b605e5cc0b74320dfe667bcbe816c" "aaffceb9b0f539b6ad6becb8e96a04f2140c8faa1de8039a343a4f1e009174fb" "abe3405767afe98b35b6a2b212af1fbc34e4f4c455310d2b7f2ffd2ec81d387b" default)))
  '(fci-rule-color "#eee8d5")
  '(highlight-changes-colors (quote ("#d33682" "#6c71c4")))
  '(highlight-symbol-colors
@@ -181,11 +204,12 @@
     ("#dc322f" "#cb4b16" "#b58900" "#546E00" "#B4C342" "#00629D" "#2aa198" "#d33682" "#6c71c4")))
  '(package-selected-packages
    (quote
-    (tuareg-mode tuareg yasnippet-snippets yasnippet elpy rainbow-mode which-key flycheck-color-mode-line flycheck-status-emoji flycheck-pos-tip solarized-theme cyberpunk-theme irony flycheck company bubbleberry-theme grandshell-theme 2048-game neotree dracula-theme caroline-theme org helm-ebdb)))
+    (sublimity zerodark-theme all-the-icons-dired all-the-icons tuareg-mode tuareg yasnippet-snippets yasnippet elpy rainbow-mode which-key flycheck-color-mode-line flycheck-status-emoji flycheck-pos-tip solarized-theme cyberpunk-theme irony flycheck company bubbleberry-theme grandshell-theme 2048-game neotree dracula-theme caroline-theme org helm-ebdb)))
  '(pos-tip-background-color "#eee8d5")
  '(pos-tip-foreground-color "#586e75")
  '(powerline-color1 "#3d3d68")
  '(powerline-color2 "#292945")
+ '(show-paren-mode t)
  '(smartrep-mode-line-active-bg (solarized-color-blend "#859900" "#eee8d5" 0.2))
  '(term-default-bg-color "#fdf6e3")
  '(term-default-fg-color "#657b83")
@@ -225,4 +249,4 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default ((t (:inherit nil :stipple nil :background nil :foreground nil :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 113 :width normal :foundry "simp" :family "Hack")))))
+ '(default ((t (:inherit nil :stipple nil :background nil :foreground nil :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight bold :height 113 :width normal :foundry "simp" :family "Hack")))))
