@@ -7,9 +7,8 @@
 ;; 2) I want to hone Emacs into the perfect tool for me, customizing it to fit my editing style and workflow.
 
 ;; TODO:
-;; 1) Implement some sort of smart parenthesis mode
-;; 2) Install ESLint and get JS error checking going (if it doesn't already work)
-;; 3) Create a custom splash page
+;; 1) Install ESLint and get JS error checking going (if it doesn't already work)
+;; 2) Create a custom splash page
 
 ;;; Code:
 
@@ -21,7 +20,7 @@
 (tool-bar-mode -1)
 (scroll-bar-mode -1)
 
-;; Set window name to file name
+;; Set window title to file name
 (setq-default frame-title-format '("%b"))
 
 ;; Set cursor to bar style
@@ -90,6 +89,8 @@
   :ensure t)
 (use-package company-erlang
   :ensure t)
+;; (use-package pdf-tools
+;;   :ensure t)
 
 ;; Helm setup/keybindings
 (helm-mode 1)
@@ -99,8 +100,8 @@
 (global-set-key (kbd "C-x C-b") 'helm-buffers-list)
 
 ;; Setup modeline
-(powerline-default-theme)
-;;(zerodark-setup-modeline-format)
+;; (powerline-default-theme)
+(zerodark-setup-modeline-format)
 
 ;; Neotree
 (global-set-key [f8] 'neotree-toggle)
@@ -217,7 +218,7 @@
     ("#dc322f" "#cb4b16" "#b58900" "#546E00" "#B4C342" "#00629D" "#2aa198" "#d33682" "#6c71c4")))
  '(package-selected-packages
    (quote
-    (gruvbox-theme evil company-erlang doom-themes flatui-theme ample-theme silkworm-theme sublimity zerodark-theme all-the-icons-dired all-the-icons tuareg-mode tuareg yasnippet-snippets yasnippet elpy rainbow-mode which-key flycheck-color-mode-line flycheck-status-emoji flycheck-pos-tip solarized-theme cyberpunk-theme irony flycheck company bubbleberry-theme grandshell-theme 2048-game neotree dracula-theme caroline-theme org helm-ebdb)))
+    (pdf-tools gruvbox-theme evil company-erlang doom-themes flatui-theme ample-theme silkworm-theme sublimity zerodark-theme all-the-icons-dired all-the-icons tuareg-mode tuareg yasnippet-snippets yasnippet elpy rainbow-mode which-key flycheck-color-mode-line flycheck-status-emoji flycheck-pos-tip solarized-theme cyberpunk-theme irony flycheck company bubbleberry-theme grandshell-theme 2048-game neotree dracula-theme caroline-theme org helm-ebdb)))
  '(pdf-view-midnight-colors (quote ("#fdf4c1" . "#32302f")))
  '(pos-tip-background-color "#eee8d5")
  '(pos-tip-foreground-color "#586e75")
