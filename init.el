@@ -51,44 +51,46 @@
   (require 'use-package))
 
 ;; use-package declarations
-(use-package org
+(use-package org ; Time to be studious
   :ensure t)
-(use-package magit
+(use-package magit ; Git good son
   :ensure t)
-(use-package helm
+(use-package helm ; Take the helm and find everything
   :ensure t)
-(use-package powerline
+(use-package powerline ; With great powerline comes great visibility
   :ensure t)
-(use-package company
+(use-package company ; We finish each other's sandwiches
   :ensure t)
-(use-package flycheck
+(use-package flycheck ; Checking... on the fly
+  :ensure t)
+(use-package irony ; Can you C the irony?
+  :ensure t)
+(use-package neotree ; Keep on climbing and you'll find something
+  :ensure t)
+(use-package which-key ; For when your memory is as bad as mine
+  :ensure t)
+(use-package rainbow-mode ; ALL THE HUES
+  :ensure t)
+(use-package yasnippet ; YAS QUEEN
+  :ensure t)
+(use-package yasnippet-snippets ; What's a yas without snippets?
+  :ensure t)
+(use-package elpy ; Hisssss
+  :ensure t)
+(use-package tuareg ; Deserted dunes welcome weary feet
+  :ensure t)
+(use-package all-the-icons ; Every last one of 'em
+  :ensure t)
+(use-package sublimity ; For that extra cozy feeling
+  :ensure t)
+(use-package company-erlang ; It's quite trivial
+  :ensure t)
+(use-package evil ; Because sometimes you're going to have to hand your computer to someone who uses Vim
   :ensure t)
 ;; (use-package flycheck-pos-tip-mode
 ;;   :ensure t)
 ;; (use-package flycheck-status-emoji-mode
 ;;   :ensure t)
-(use-package irony
-  :ensure t)
-(use-package neotree
-  :ensure t)
-(use-package which-key
-  :ensure t)
-(use-package rainbow-mode
-  :ensure t)
-(use-package yasnippet
-  :ensure t)
-(use-package yasnippet-snippets
-  :ensure t)
-(use-package elpy
-  :ensure t)
-(use-package tuareg
-  :ensure t)
-(use-package all-the-icons
-  :ensure t)
-(use-package sublimity
-  :ensure t)
-(use-package company-erlang
-  :ensure t)
 ;; (use-package pdf-tools
 ;;   :ensure t)
 
@@ -218,7 +220,7 @@
     ("#dc322f" "#cb4b16" "#b58900" "#546E00" "#B4C342" "#00629D" "#2aa198" "#d33682" "#6c71c4")))
  '(package-selected-packages
    (quote
-    (pdf-tools gruvbox-theme evil company-erlang doom-themes flatui-theme ample-theme silkworm-theme sublimity zerodark-theme all-the-icons-dired all-the-icons tuareg-mode tuareg yasnippet-snippets yasnippet elpy rainbow-mode which-key flycheck-color-mode-line flycheck-status-emoji flycheck-pos-tip solarized-theme cyberpunk-theme irony flycheck company bubbleberry-theme grandshell-theme 2048-game neotree dracula-theme caroline-theme org helm-ebdb)))
+    (merlin pdf-tools gruvbox-theme evil company-erlang doom-themes flatui-theme ample-theme silkworm-theme sublimity zerodark-theme all-the-icons-dired all-the-icons tuareg-mode tuareg yasnippet-snippets yasnippet elpy rainbow-mode which-key flycheck-color-mode-line flycheck-status-emoji flycheck-pos-tip solarized-theme cyberpunk-theme irony flycheck company bubbleberry-theme grandshell-theme 2048-game neotree dracula-theme caroline-theme org helm-ebdb)))
  '(pdf-view-midnight-colors (quote ("#fdf4c1" . "#32302f")))
  '(pos-tip-background-color "#eee8d5")
  '(pos-tip-foreground-color "#586e75")
