@@ -7,13 +7,26 @@
 ;; 2) I want to hone Emacs into the perfect tool for me, customizing it to fit my editing style and workflow.
 
 ;; TODO:
-;; 1) Install ESLint and get JS error checking going (if it doesn't already work)
+;; 1) Install ESLint and get JS error checking going
 ;; 2) Create a custom splash page
+;; 3) Setup Projectile
+;; 4) Work more with Magit
 
 ;;; Code:
 
 ;; Hide startup screen and start on scratch buffer
 (setq inhibit-startup-screen t)
+
+;; Replace the message in scratch with a quote from fortune
+(defun start-with-fortune ()
+  (with-temp-buffer
+    (lisp-mode)
+    (insert (shell-command-to-string scratch-message-program))
+    (comment-region (point-max) (point-min))
+    (buffer-string)))
+
+(setq scratch-message-program "fortune")
+(setq initial-scratch-message (start-with-fortune))
 
 ;; Hide all the bars
 (menu-bar-mode -1)
@@ -31,6 +44,9 @@
 
 ;; Whenever a delimeter (parenthesis, brackets, etc) is inserted, complete the pair
 (electric-pair-mode 1)
+
+;; Ensure that line wrapping looks nice
+(global-visual-line-mode t)
 
 ;; Stop Emacs from creating backup files
 (setq make-backup-files nil)
@@ -87,6 +103,13 @@
   :ensure t)
 (use-package evil ; Because sometimes you're going to have to hand your computer to someone who uses Vim
   :ensure t)
+(use-package web-mode ; HTML but better
+  :ensure t)
+(use-package comment-dwim-2 ; This time, it's personal
+  :ensure t)
+(use-package expand-region ; Selection à la Jetbrains
+  :ensure t)
+
 ;; (use-package flycheck-pos-tip-mode
 ;;   :ensure t)
 ;; (use-package flycheck-status-emoji-mode
@@ -102,8 +125,8 @@
 (global-set-key (kbd "C-x C-b") 'helm-buffers-list)
 
 ;; Setup modeline
-;; (powerline-default-theme)
-(zerodark-setup-modeline-format)
+(powerline-default-theme)
+;; (zerodark-setup-modeline-format)
 
 ;; Neotree
 (global-set-key [f8] 'neotree-toggle)
@@ -162,6 +185,16 @@
 ;; Setup Company support for Erlang
 (add-hook 'erlang-mode-hook #'company-erlang-init)
 
+;; Use web-mode instead of html-mode
+(add-hook 'html-mode-hook 'web-mode)
+
+;; Bind comment-dwim-2
+(global-set-key (kbd "M-;") 'comment-dwim-2)
+
+;; Bind expand-region
+(global-set-key (kbd "C-=") 'er/expand-region)
+
+
 
 ;; Custom stuff below here, don't touch unless absolutely necessary!!!!
 
@@ -180,10 +213,10 @@
  '(cua-normal-cursor-color "#657b83")
  '(cua-overwrite-cursor-color "#b58900")
  '(cua-read-only-cursor-color "#859900")
- '(custom-enabled-themes (quote (gruvbox)))
+ '(custom-enabled-themes (quote (zerodark)))
  '(custom-safe-themes
    (quote
-    ("e2fd81495089dc09d14a88f29dfdff7645f213e2c03650ac2dd275de52a513de" "2a9039b093df61e4517302f40ebaf2d3e95215cb2f9684c8c1a446659ee226b9" "a622aaf6377fe1cd14e4298497b7b2cae2efc9e0ce362dade3a58c16c89e089c" "7f89ec3c988c398b88f7304a75ed225eaac64efa8df3638c815acc563dfd3b55" "f0dc4ddca147f3c7b1c7397141b888562a48d9888f1595d69572db73be99a024" "ecba61c2239fbef776a72b65295b88e5534e458dfe3e6d7d9f9cb353448a569e" "cd736a63aa586be066d5a1f0e51179239fe70e16a9f18991f6f5d99732cabb32" "fe666e5ac37c2dfcf80074e88b9252c71a22b6f5d2f566df9a7aa4f9bea55ef8" "a3fa4abaf08cc169b61dea8f6df1bbe4123ec1d2afeb01c17e11fdc31fc66379" "7e78a1030293619094ea6ae80a7579a562068087080e01c2b8b503b27900165c" "392395ee6e6844aec5a76ca4f5c820b97119ddc5290f4e0f58b38c9748181e8d" "36ca8f60565af20ef4f30783aa16a26d96c02df7b4e54e9900a5138fb33808da" "c9ddf33b383e74dac7690255dd2c3dfa1961a8e8a1d20e401c6572febef61045" "bf798e9e8ff00d4bf2512597f36e5a135ce48e477ce88a0764cfb5d8104e8163" "653574dd35a64b45030075c99bb9e73f26d8abc7f21e145321e64fa2659fb6f5" "08ef1356470a9d3bf363ffab0705d90f8a492796e9db489936de4bde6a4fdb19" "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" "d677ef584c6dfc0697901a44b885cc18e206f05114c8a3b7fde674fce6180879" "d1cc05d755d5a21a31bced25bed40f85d8677e69c73ca365628ce8024827c9e3" "c9b89349d269af4ac5d832759df2f142ae50b0bbbabcce9c0dd53f79008443c9" "3860a842e0bf585df9e5785e06d600a86e8b605e5cc0b74320dfe667bcbe816c" "aaffceb9b0f539b6ad6becb8e96a04f2140c8faa1de8039a343a4f1e009174fb" "abe3405767afe98b35b6a2b212af1fbc34e4f4c455310d2b7f2ffd2ec81d387b" default)))
+    ("151bde695af0b0e69c3846500f58d9a0ca8cb2d447da68d7fbf4154dcf818ebc" "75d3dde259ce79660bac8e9e237b55674b910b470f313cdf4b019230d01a982a" "b54826e5d9978d59f9e0a169bbd4739dd927eead3ef65f56786621b53c031a7c" "595617a3c537447aa7e76ce05c8d43146a995296ea083211225e7efc069c598f" "3da031b25828b115c6b50bb92a117f5c0bbd3d9d0e9ba5af3cd2cb9db80db1c2" "3a3de615f80a0e8706208f0a71bbcc7cc3816988f971b6d237223b6731f91605" "d2e9c7e31e574bf38f4b0fb927aaff20c1e5f92f72001102758005e53d77b8c9" "d1b4990bd599f5e2186c3f75769a2c5334063e9e541e37514942c27975700370" "e2fd81495089dc09d14a88f29dfdff7645f213e2c03650ac2dd275de52a513de" "2a9039b093df61e4517302f40ebaf2d3e95215cb2f9684c8c1a446659ee226b9" "a622aaf6377fe1cd14e4298497b7b2cae2efc9e0ce362dade3a58c16c89e089c" "7f89ec3c988c398b88f7304a75ed225eaac64efa8df3638c815acc563dfd3b55" "f0dc4ddca147f3c7b1c7397141b888562a48d9888f1595d69572db73be99a024" "ecba61c2239fbef776a72b65295b88e5534e458dfe3e6d7d9f9cb353448a569e" "cd736a63aa586be066d5a1f0e51179239fe70e16a9f18991f6f5d99732cabb32" "fe666e5ac37c2dfcf80074e88b9252c71a22b6f5d2f566df9a7aa4f9bea55ef8" "a3fa4abaf08cc169b61dea8f6df1bbe4123ec1d2afeb01c17e11fdc31fc66379" "7e78a1030293619094ea6ae80a7579a562068087080e01c2b8b503b27900165c" "392395ee6e6844aec5a76ca4f5c820b97119ddc5290f4e0f58b38c9748181e8d" "36ca8f60565af20ef4f30783aa16a26d96c02df7b4e54e9900a5138fb33808da" "c9ddf33b383e74dac7690255dd2c3dfa1961a8e8a1d20e401c6572febef61045" "bf798e9e8ff00d4bf2512597f36e5a135ce48e477ce88a0764cfb5d8104e8163" "653574dd35a64b45030075c99bb9e73f26d8abc7f21e145321e64fa2659fb6f5" "08ef1356470a9d3bf363ffab0705d90f8a492796e9db489936de4bde6a4fdb19" "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" "d677ef584c6dfc0697901a44b885cc18e206f05114c8a3b7fde674fce6180879" "d1cc05d755d5a21a31bced25bed40f85d8677e69c73ca365628ce8024827c9e3" "c9b89349d269af4ac5d832759df2f142ae50b0bbbabcce9c0dd53f79008443c9" "3860a842e0bf585df9e5785e06d600a86e8b605e5cc0b74320dfe667bcbe816c" "aaffceb9b0f539b6ad6becb8e96a04f2140c8faa1de8039a343a4f1e009174fb" "abe3405767afe98b35b6a2b212af1fbc34e4f4c455310d2b7f2ffd2ec81d387b" default)))
  '(fci-rule-color "#eee8d5")
  '(highlight-changes-colors (quote ("#d33682" "#6c71c4")))
  '(highlight-symbol-colors
@@ -220,7 +253,7 @@
     ("#dc322f" "#cb4b16" "#b58900" "#546E00" "#B4C342" "#00629D" "#2aa198" "#d33682" "#6c71c4")))
  '(package-selected-packages
    (quote
-    (merlin pdf-tools gruvbox-theme evil company-erlang doom-themes flatui-theme ample-theme silkworm-theme sublimity zerodark-theme all-the-icons-dired all-the-icons tuareg-mode tuareg yasnippet-snippets yasnippet elpy rainbow-mode which-key flycheck-color-mode-line flycheck-status-emoji flycheck-pos-tip solarized-theme cyberpunk-theme irony flycheck company bubbleberry-theme grandshell-theme 2048-game neotree dracula-theme caroline-theme org helm-ebdb)))
+    (expand-region comment-dwim-2 web-mode merlin pdf-tools gruvbox-theme evil company-erlang doom-themes flatui-theme ample-theme silkworm-theme sublimity zerodark-theme all-the-icons-dired all-the-icons tuareg-mode tuareg yasnippet-snippets yasnippet elpy rainbow-mode which-key flycheck-color-mode-line flycheck-status-emoji flycheck-pos-tip solarized-theme cyberpunk-theme irony flycheck company bubbleberry-theme grandshell-theme 2048-game neotree dracula-theme caroline-theme org helm-ebdb)))
  '(pdf-view-midnight-colors (quote ("#fdf4c1" . "#32302f")))
  '(pos-tip-background-color "#eee8d5")
  '(pos-tip-foreground-color "#586e75")
@@ -270,4 +303,4 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default ((t (:inherit nil :stipple nil :background nil :foreground nil :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 113 :width normal :foundry "unknown" :family "Monaco")))))
+ '(default ((t (:inherit nil :stipple nil :background nil :foreground nil :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 113 :width normal :foundry "PfEd" :family "Menlo")))))
