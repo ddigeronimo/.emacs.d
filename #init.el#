@@ -142,7 +142,7 @@
 (global-set-key [f8] 'neotree-toggle)
 (setq neo-theme 'icons)
 
-;; Company
+;; Company setup
 (add-hook 'after-init-hook 'global-company-mode)
 
 ;; Irony setup
