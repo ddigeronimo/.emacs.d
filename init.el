@@ -72,7 +72,7 @@
   :ensure t)
 (use-package rainbow-mode 		; ALL THE HUES
   :ensure t)
-(use-package yasnippet 			; YAS QUEEN
+(use-package yasnippet			; YAS QUEEN
   :ensure t)
 (use-package yasnippet-snippets		; What's a yas without snippets?
   :ensure t)
