@@ -96,6 +96,8 @@
   :ensure t)
 (use-package paredit			; Sluuuuuurp BAAAAARF
   :ensure t)
+(use-package rainbow-delimiters		; For when code looks like (((((this)))))
+  :ensure t)
 
 ;; (use-package flycheck-pos-tip-mode
 ;;   :ensure t)
@@ -186,6 +188,9 @@
 (add-hook 'lisp-mode-hook 'enable-paredit-mode)
 (add-hook 'emacs-lisp-mode-hook 'enable-paredit-mode)
 (add-hook 'lisp-interaction-mode-hook 'enable-paredit-mode)
+
+;; Enable rainbow delimiters in all programming modes
+(add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
 
 ;; Finally, keep custom variables in a seperate file that git will ignore
 (setq custom-file "~/.emacs.d/custom.el")
