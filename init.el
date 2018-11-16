@@ -1,25 +1,30 @@
-;;; package --- Summary
-;; I had to type that to fix an error - disregard it.
-
-;;; Commentary:
 ;; My goals in this Emacs configuration are two-fold:
 ;; 1) I want to create the comfiest, most-modern UI possible (inspired by Spacemacs, Doom, and VSCode) without sacrificing quality and convienience.
 ;; 2) I want to hone Emacs into the perfect tool for me, customizing it to fit my editing style and workflow.
 
 ;; TODO:
-;; 1) Setup JS error checking using ESlint
-;; 2) Setup Projectile
-;; 3) Work more with Magit
+;  1) Setup JS error checking using ESlint
+;  2) Setup Projectile
+;  3) Work more with Magit
+;  4) Move setup to use-package declarations
 
-
-;;; Code:
-
-;; This is me
-(setq user-full-name "Dylan DiGeronimo"
-      user-mail-address "dylandigeronimo1@gmail.com")
-
-;; Hide startup screen and start on scratch buffer
-(setq inhibit-startup-screen t)
+;; Better defaults
+(setq user-full-name "Dylan DiGeronimo"	; Set user
+      user-mail-address "dylandigeronimo1@gmail.com"
+      frame-title-format '("%b")	; Set window title to file name
+      inhibit-startup-screen t		; Hide startup screen and start on scratch buffer
+      global-linum-mode t		; Line numbering
+      show-paren-mode t			; Highlight matching parenthesis
+      global-visual-line-mode t		; Nice line-wrapping
+      make-backup-files nil             ; Stop Emacs from creating backup files
+      )
+(setq-default cursor-type 'bar)		; Set cursor to bar style
+(setq-default cursor-in-non-selected-windows nil) ; Hide cursor in non-active windows
+(menu-bar-mode -1)			; Hide all the bars
+(tool-bar-mode -1)
+(scroll-bar-mode -1)
+(electric-pair-mode t)		        ; Automatically complete delimiter pairs
+(fset 'yes-or-no-p 'y-or-n-p)		; Replace all yes/no promepts with y/n
 
 ;; Replace the message in scratch with a quote from fortune
 (defun start-with-fortune ()
@@ -28,38 +33,8 @@
     (insert (shell-command-to-string scratch-message-program))
     (comment-region (point-max) (point-min))
     (buffer-string)))
-
 (setq scratch-message-program "fortune")
 (setq initial-scratch-message (start-with-fortune))
-
-;; Hide all the bars
-(menu-bar-mode -1)
-(tool-bar-mode -1)
-(scroll-bar-mode -1)
-
-;; Line numbering
-(global-linum-mode 1)
-
-;; Set window title to file name
-(setq-default frame-title-format '("%b"))
-
-;; Set cursor to bar style
-(setq-default cursor-type 'bar)
-
-;; When the cursor is positioned over a parenthesis, highlight the matching parenthesis
-(show-paren-mode 1)
-
-;; Whenever a delimeter (parenthesis, brackets, etc) is inserted, complete the pair
-(electric-pair-mode 1)
-
-;; Ensure that line wrapping looks nice
-(global-visual-line-mode t)
-
-;; Stop Emacs from creating backup files
-(setq make-backup-files nil)
-
-;; Replace all yes/no prompts with y/n
-(fset 'yes-or-no-p 'y-or-n-p)
 
 ;; Package.el stuff
 (require 'package)
@@ -77,47 +52,49 @@
   (require 'use-package))
 
 ;; use-package declarations
-(use-package org ; Time to be studious
+(use-package org			; Time to be studious
   :ensure t)
-(use-package magit ; Git good son
+(use-package magit 			; Git good son
   :ensure t)
-(use-package helm ; Take the helm and find everything
+(use-package helm			; Take the helm and find everything
   :ensure t)
-(use-package powerline ; With great powerline comes great visibility
+(use-package powerline			; With great powerline comes great visibility
   :ensure t)
-(use-package company ; We finish each other's sandwiches
+(use-package company 			; We finish each other's sandwiches
   :ensure t)
-(use-package flycheck ; Checking... on the fly
+(use-package flycheck 			; Checking... on the fly
   :ensure t)
-(use-package irony ; Can you C the irony?
+(use-package irony			; Can you C the irony?
   :ensure t)
-(use-package neotree ; Keep on climbing and you'll find something
+(use-package neotree 			; Keep on climbing and you'll find something
   :ensure t)
-(use-package which-key ; For when your memory is as bad as mine
+(use-package which-key			; For when your memory is as bad as mine
   :ensure t)
-(use-package rainbow-mode ; ALL THE HUES
+(use-package rainbow-mode 		; ALL THE HUES
   :ensure t)
-(use-package yasnippet ; YAS QUEEN
+(use-package yasnippet 			; YAS QUEEN
   :ensure t)
-(use-package yasnippet-snippets ; What's a yas without snippets?
+(use-package yasnippet-snippets		; What's a yas without snippets?
   :ensure t)
-(use-package elpy ; Hisssss
+(use-package elpy 			; Hisssss
   :ensure t)
-(use-package tuareg ; Deserted dunes welcome weary feet
+(use-package tuareg 			; Deserted dunes welcome weary feet
   :ensure t)
-(use-package all-the-icons ; Every last one of 'em
+(use-package all-the-icons		; Every last one of 'em
   :ensure t)
-(use-package sublimity ; For that extra cozy feeling
+(use-package sublimity			; For that extra cozy feeling
   :ensure t)
-(use-package company-erlang ; It's quite trivial
+(use-package company-erlang		; It's quite trivial
   :ensure t)
-(use-package evil ; Because sometimes you're going to have to hand your computer to someone who uses Vim
+(use-package evil			; Because sometimes you're going to have to hand your computer to someone who uses Vim
   :ensure t)
-(use-package web-mode ; HTML but better
+(use-package web-mode 			; HTML but better
   :ensure t)
-(use-package comment-dwim-2 ; This time, it's personal
+(use-package comment-dwim-2 		; This time, it's personal
   :ensure t)
-(use-package expand-region ; Selection à la Jetbrains
+(use-package expand-region		; Selection à la Jetbrains
+  :ensure t)
+(use-package paredit			; Sluuuuuurp BAAAAARF
   :ensure t)
 
 ;; (use-package flycheck-pos-tip-mode
@@ -157,7 +134,8 @@
 (global-flycheck-mode 1)
 (with-eval-after-load 'flycheck
   (flycheck-pos-tip-mode)
-  (flycheck-status-emoji-mode))
+  (flycheck-status-emoji-mode)
+  (setq-default flycheck-disabled-checkers '(emacs-lisp-checkdoc)))
 
 ;; Which-key setup
 (which-key-mode)
@@ -204,7 +182,11 @@
 ;; Bind expand-region
 (global-set-key (kbd "C-=") 'er/expand-region)
 
+;; Trigger paredit in lisp modes
+(add-hook 'lisp-mode-hook 'enable-paredit-mode)
+(add-hook 'emacs-lisp-mode-hook 'enable-paredit-mode)
+(add-hook 'lisp-interaction-mode-hook 'enable-paredit-mode)
 
-;; Keep custom variables in a seperate file that git will ignore
+;; Finally, keep custom variables in a seperate file that git will ignore
 (setq custom-file "~/.emacs.d/custom.el")
 (load custom-file 'noerror)
