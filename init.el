@@ -3,10 +3,11 @@
 ;; 2) I want to hone Emacs into the perfect tool for me, customizing it to fit my editing style and workflow.
 
 ;; TODO:
-;  1) Setup JS error checking using ESlint
+;  1) Start thinking about pushing back RSI --> Maybe God-mode?
 ;  2) Setup Projectile
-;  3) Work more with Magit
-;  4) Move setup to use-package declarations
+;  3) Finish moving setup to use-package declarations
+;  4) Setup JS error checking using ESlint
+
 
 ;; Better defaults
 (setq user-full-name "Dylan DiGeronimo"	; Set user
@@ -51,52 +52,142 @@
 (eval-when-compile
   (require 'use-package))
 
-;; use-package declarations
+;; Package setups
+
 (use-package org			; Time to be studious
-  :ensure t)
+  :ensure t
+  ;; :mode "\\.org\\'"
+  ;; :interpreter "org"
+  )
+
 (use-package magit 			; Git good son
   :ensure t)
+
 (use-package helm			; Take the helm and find everything
-  :ensure t)
+  :ensure t
+  :delight helm-mode 
+  :init
+  (require 'helm-config)
+  :config
+  (helm-mode 1)
+  :bind
+  (("M-x" . helm-M-x)
+   ("<menu>" . helm-M-x)
+   ("C-x C-f" . helm-find-files)
+   ("C-x C-b" . helm-buffers-list)))
+
 (use-package powerline			; With great powerline comes great visibility
-  :ensure t)
+  :ensure t
+  :config
+  (powerline-default-theme))
+
 (use-package company 			; We finish each other's sandwiches
-  :ensure t)
+  :ensure t
+  :config
+  (global-company-mode))
+
 (use-package flycheck 			; Checking... on the fly
-  :ensure t)
+  :ensure t
+  :config
+  (global-flycheck-mode 1)
+  (with-eval-after-load 'flycheck
+    (flycheck-pos-tip-mode)
+    (flycheck-status-emoji-mode)
+    (setq-default flycheck-disabled-checkers '(emacs-lisp-checkdoc))))
+
 (use-package irony			; Can you C the irony?
-  :ensure t)
+  :ensure t
+  ;; :mode "\\.c\\'"
+  ;; :mode "\\.h\\'"
+  ;; :interpreter "c"
+  ;; :mode "\\.cpp\\'"
+  ;; :interpreter "c++"
+  ;; :config
+  ;; (irony-cdb-autosetup-compile-options)
+  :config
+  (add-hook 'c++-mode-hook 'irony-mode)
+  (add-hook 'c-mode-hook 'irony-mode)
+  (add-hook 'objc-mode-hook 'irony-mode)
+  (add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options))
+
 (use-package neotree 			; Keep on climbing and you'll find something
-  :ensure t)
+  :ensure t
+  :bind
+  (([f8] . neotree-toggle))
+  :config
+  (setq neo-theme 'icons))
+
 (use-package which-key			; For when your memory is as bad as mine
-  :ensure t)
+  :ensure t
+  :config
+  (which-key-mode)
+  :delight which-key-mode)
+
 (use-package rainbow-mode 		; ALL THE HUES
   :ensure t)
+
 (use-package yasnippet			; YAS QUEEN
-  :ensure t)
+  :ensure t
+  :config
+  (yas-global-mode))
+
 (use-package yasnippet-snippets		; What's a yas without snippets?
   :ensure t)
+
 (use-package elpy 			; Hisssss
-  :ensure t)
+  :ensure t
+  ;; :mode "\\.py\\'"
+  ;; :interpreter "Python"
+  :config
+  (elpy-enable))
+
 (use-package tuareg 			; Deserted dunes welcome weary feet
-  :ensure t)
+  :ensure t
+  ;; :mode "\\.ml\\'"
+  ;; :interpreter "ocaml"
+  )
+
 (use-package all-the-icons		; Every last one of 'em
   :ensure t)
+
 (use-package sublimity			; For that extra cozy feeling
-  :ensure t)
+  :defer t)
+
 (use-package company-erlang		; It's quite trivial
-  :ensure t)
+  :ensure t
+  :config
+  (add-hook 'erlang-mode-hook #'company-erlang-init))
+
 (use-package evil			; Because sometimes you're going to have to hand your computer to someone who uses Vim
-  :ensure t)
+  :defer t)
+
 (use-package web-mode 			; HTML but better
-  :ensure t)
+  :ensure t
+  ;; :mode "\\.html\\'"
+  ;; :interpreter "html"
+  :config
+  (add-hook 'html-mode-hook 'web-mode)
+  )
+
 (use-package comment-dwim-2 		; This time, it's personal
-  :ensure t)
+  :ensure t
+  :bind
+  (("M-;" . comment-dwim-2)))
+
 (use-package expand-region		; Selection à la Jetbrains
-  :ensure t)
+  :ensure t
+  :bind
+  (("C-=" . er/expand-region)))
+
 (use-package paredit			; Sluuuuuurp BAAAAARF
   :ensure t)
+
 (use-package rainbow-delimiters		; For when code looks like (((((this)))))
+  :ensure t
+  :config
+  (add-hook 'prog-mode-hook 'rainbow-delimiters-mode))
+
+(use-package delight			; Hiding labor est. 2018
   :ensure t)
 
 ;; (use-package flycheck-pos-tip-mode
@@ -106,52 +197,13 @@
 ;; (use-package pdf-tools
 ;;   :ensure t)
 
-;; Helm setup/keybindings
-(helm-mode 1)
-(global-set-key (kbd "M-x") 'helm-M-x)
-(global-set-key (kbd "<menu>") 'helm-M-x)
-(global-set-key (kbd "C-x C-f") 'helm-find-files)
-(global-set-key (kbd "C-x C-b") 'helm-buffers-list)
-
-;; Setup modeline
-(powerline-default-theme)
-;; (zerodark-setup-modeline-format)
-
-;; Neotree
-(global-set-key [f8] 'neotree-toggle)
-(setq neo-theme 'icons)
-
-;; Company setup
-(add-hook 'after-init-hook 'global-company-mode)
-
-;; Irony setup
-(add-hook 'c++-mode-hook 'irony-mode)
-(add-hook 'c-mode-hook 'irony-mode)
-(add-hook 'objc-mode-hook 'irony-mode)
-(add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options)
-
-;; Flycheck setup
-;; flycheck-pos-tip-mode enables Flycheck errors to become popups, ensure that you install flyckeck-pos-tip first
-;; flycheck-status-emoji-mode replaces 'FlyC' with an emoji on the mode line, ensure that you install flycheck-status-emoji first
-(global-flycheck-mode 1)
-(with-eval-after-load 'flycheck
-  (flycheck-pos-tip-mode)
-  (flycheck-status-emoji-mode)
-  (setq-default flycheck-disabled-checkers '(emacs-lisp-checkdoc)))
-
-;; Which-key setup
-(which-key-mode)
-
 ;; Rainbow mode setup
 (add-hook 'css-mode-hook 'my-css-mode-hook)
 (defun my-css-mode-hook ()
   (rainbow-mode 1))
 
-;; Yasnippet setup
-(yas-global-mode 1)
-
 ;; Elpy setup
-(elpy-enable)
+;;(elpy-enable)
 
 ;; Merlin setup
 (let ((opam-share (ignore-errors (car (process-lines "opam" "config" "var" "share")))))
@@ -165,32 +217,20 @@
   (add-to-list 'company-backends 'merlin-company-backend))
 
 ;; Sublimity Mode
-(require 'sublimity-scroll)
-;; (require 'sublimity-map)
-;; (require 'sublimity-attractive)
-(sublimity-mode 1)
-(setq sublimity-scroll-weight 10
-      sublimity-scroll-drift-length 5)
-
-;; Setup Company support for Erlang
-(add-hook 'erlang-mode-hook #'company-erlang-init)
-
-;; Use web-mode instead of html-mode
-(add-hook 'html-mode-hook 'web-mode)
-
-;; Bind comment-dwim-2
-(global-set-key (kbd "M-;") 'comment-dwim-2)
+;; (require 'sublimity-scroll)
+;;(require 'sublimity-map)
+;;(require 'sublimity-attractive)
+;; (sublimity-mode 1)
+;; (setq sublimity-scroll-weight 4
+;;       sublimity-scroll-drift-length 6)
 
 ;; Bind expand-region
-(global-set-key (kbd "C-=") 'er/expand-region)
+;;(global-set-key (kbd "C-=") 'er/expand-region)
 
 ;; Trigger paredit in lisp modes
 (add-hook 'lisp-mode-hook 'enable-paredit-mode)
 (add-hook 'emacs-lisp-mode-hook 'enable-paredit-mode)
 (add-hook 'lisp-interaction-mode-hook 'enable-paredit-mode)
-
-;; Enable rainbow delimiters in all programming modes
-(add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
 
 ;; Finally, keep custom variables in a seperate file that git will ignore
 (setq custom-file "~/.emacs.d/custom.el")
