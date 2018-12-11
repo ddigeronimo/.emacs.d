@@ -3,10 +3,11 @@
 ;; 2) I want to hone Emacs into the perfect tool for me, customizing it to fit my editing style and workflow.
 
 ;; TODO:
-;  1) Start thinking about pushing back RSI --> Maybe God-mode?
-;  2) Setup Projectile
-;  3) Finish moving setup to use-package declarations
-;  4) Setup JS error checking using ESlint
+;; 1) Setup Projectile
+;; 2) Use use-package to defer the loading of different packages
+;; 3) Add tern for JS (see how to integrate with js2-mode and company?)
+;; 4) Fix Python setup
+;; 5) Setup nlinum for more efficient line numbering
 
 
 ;; Better defaults
@@ -26,6 +27,13 @@
 (scroll-bar-mode -1)
 (electric-pair-mode t)		        ; Automatically complete delimiter pairs
 (fset 'yes-or-no-p 'y-or-n-p)		; Replace all yes/no promepts with y/n
+
+;; Transparent titlebar - enable on Macs
+;; (add-to-list 'default-frame-alist
+;;              '(ns-transparent-titlebar . t))
+
+;; (add-to-list 'default-frame-alist
+;;              '(ns-appearance . light)) ;; or dark - depending on your theme
 
 ;; Replace the message in scratch with a quote from fortune
 (defun start-with-fortune ()
@@ -56,59 +64,75 @@
 
 (use-package org			; Time to be studious
   :ensure t
-  ;; :mode "\\.org\\'"
-  ;; :interpreter "org"
-  )
+  :mode ("\\.org\\'" . org-mode) 
+  :interpreter ("org" . org-mode))
 
 (use-package magit 			; Git good son
   :ensure t)
 
 (use-package helm			; Take the helm and find everything
   :ensure t
-  :delight helm-mode 
+  :delight helm-mode
   :init
   (require 'helm-config)
-  :config
-  (helm-mode 1)
+  (helm-mode)
   :bind
   (("M-x" . helm-M-x)
    ("<menu>" . helm-M-x)
    ("C-x C-f" . helm-find-files)
    ("C-x C-b" . helm-buffers-list)))
 
-(use-package powerline			; With great powerline comes great visibility
-  :ensure t
-  :config
-  (powerline-default-theme))
+;; (use-package powerline			; With great powerline comes great visibility
+;;   :ensure t
+;;   :config
+;;   (powerline-default-theme))
 
 (use-package company 			; We finish each other's sandwiches
   :ensure t
+  :defer t
+  :init
+  (global-company-mode)
   :config
-  (global-company-mode))
+  (progn
+    ;; Use company for completion
+    (bind-key [remap completion-at-point] #'company-complete company-mode-map))
+  :bind ("C-;" . company-complete-common))
 
-(use-package flycheck 			; Checking... on the fly
+(use-package company-erlang		; It's quite trivial
   :ensure t
   :config
-  (global-flycheck-mode 1)
-  (with-eval-after-load 'flycheck
-    (flycheck-pos-tip-mode)
-    (flycheck-status-emoji-mode)
-    (setq-default flycheck-disabled-checkers '(emacs-lisp-checkdoc))))
+  (add-hook 'erlang-mode-hook #'company-erlang-init))
+
+(defun my-irony-mode-hook ()
+       (define-key irony-mode-map [remap completion-at-point]
+	 'irony-completion-at-point-async)
+       (define-key irony-mode-map [remap complete-symbol]
+	 'irony-completion-at-point-async))
 
 (use-package irony			; Can you C the irony?
   :ensure t
-  ;; :mode "\\.c\\'"
-  ;; :mode "\\.h\\'"
-  ;; :interpreter "c"
-  ;; :mode "\\.cpp\\'"
-  ;; :interpreter "c++"
-  ;; :config
-  ;; (irony-cdb-autosetup-compile-options)
   :config
-  (add-hook 'c++-mode-hook 'irony-mode)
-  (add-hook 'c-mode-hook 'irony-mode)
-  (add-hook 'objc-mode-hook 'irony-mode)
-  (add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options))
+  (progn
+    (use-package company-irony
+      :ensure t
+      :config
+      (add-to-list 'company-backends 'company-irony))
+    (add-hook 'c++-mode-hook 'irony-mode)
+    (add-hook 'c-mode-hook 'irony-mode)
+    (add-hook 'objc-mode-hook 'irony-mode)
+    (add-hook 'irony-mode-hook 'my-irony-mode-hook)
+    (add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options)
+    (add-hook 'irony-mode-hook 'company-irony-setup-begin-commands)))
+
+(use-package flycheck 			; Checking... on the fly
+  :ensure t
+  :init
+  (global-flycheck-mode 1)
+  :config
+    (with-eval-after-load 'flycheck
+    (flycheck-pos-tip-mode)
+    (flycheck-status-emoji-mode)
+    (setq-default flycheck-disabled-checkers '(emacs-lisp-checkdoc))))
 
 (use-package neotree 			; Keep on climbing and you'll find something
   :ensure t
@@ -119,16 +143,23 @@
 
 (use-package which-key			; For when your memory is as bad as mine
   :ensure t
-  :config
+  :defer t
+  :init
   (which-key-mode)
   :delight which-key-mode)
 
 (use-package rainbow-mode 		; ALL THE HUES
-  :ensure t)
+  :ensure t
+  :mode ("\\.css'" . rainbow-mode)
+  :interpreter ("css" . rainbow-mode)
+  :mode ("\\.scss'" . rainbow-mode)
+  :interpreter ("scss" . rainbow-mode)
+  :delight)
 
 (use-package yasnippet			; YAS QUEEN
   :ensure t
-  :config
+  :defer t
+  :init
   (yas-global-mode))
 
 (use-package yasnippet-snippets		; What's a yas without snippets?
@@ -136,38 +167,29 @@
 
 (use-package elpy 			; Hisssss
   :ensure t
-  ;; :mode "\\.py\\'"
-  ;; :interpreter "Python"
-  :config
-  (elpy-enable))
+  ;; :mode ("\\.py\\'" . elpy-mode)
+  ;; :interpreter ("python" . elpy-mode)
+  )
 
 (use-package tuareg 			; Deserted dunes welcome weary feet
   :ensure t
-  ;; :mode "\\.ml\\'"
-  ;; :interpreter "ocaml"
-  )
+  :mode ("\\.ml\\'" . tuareg-mode)
+  :interpreter ("ocaml" . tuareg-mode))
 
 (use-package all-the-icons		; Every last one of 'em
-  :ensure t)
+  :ensure t
+  :defer t)
 
 (use-package sublimity			; For that extra cozy feeling
   :defer t)
-
-(use-package company-erlang		; It's quite trivial
-  :ensure t
-  :config
-  (add-hook 'erlang-mode-hook #'company-erlang-init))
 
 (use-package evil			; Because sometimes you're going to have to hand your computer to someone who uses Vim
   :defer t)
 
 (use-package web-mode 			; HTML but better
   :ensure t
-  ;; :mode "\\.html\\'"
-  ;; :interpreter "html"
-  :config
-  (add-hook 'html-mode-hook 'web-mode)
-  )
+  :mode ("\\.html\\'" . web-mode) 
+  :interpreter ("html" . web-mode))
 
 (use-package comment-dwim-2 		; This time, it's personal
   :ensure t
@@ -184,26 +206,32 @@
 
 (use-package rainbow-delimiters		; For when code looks like (((((this)))))
   :ensure t
-  :config
+  :init
   (add-hook 'prog-mode-hook 'rainbow-delimiters-mode))
 
 (use-package delight			; Hiding labor est. 2018
   :ensure t)
 
+(use-package js2-mode
+  :ensure t
+  :mode ("\\.js\\'" . js2-mode)
+  :interpreter ("javascript" . js2-mode))
+
+(use-package pdf-tools
+  :ensure t
+  :mode ("\\.pdf\\'" . pdf-view-mode)
+  :interpreter ("pdf" . pdf-view-mode))
+
 ;; (use-package flycheck-pos-tip-mode
 ;;   :ensure t)
 ;; (use-package flycheck-status-emoji-mode
 ;;   :ensure t)
-;; (use-package pdf-tools
-;;   :ensure t)
 
-;; Rainbow mode setup
-(add-hook 'css-mode-hook 'my-css-mode-hook)
-(defun my-css-mode-hook ()
-  (rainbow-mode 1))
+;; use-package is giving me trouble with doom-modeline so this is a temporary fix
+(doom-modeline-init)
 
 ;; Elpy setup
-;;(elpy-enable)
+(elpy-enable)
 
 ;; Merlin setup
 (let ((opam-share (ignore-errors (car (process-lines "opam" "config" "var" "share")))))
@@ -223,9 +251,6 @@
 ;; (sublimity-mode 1)
 ;; (setq sublimity-scroll-weight 4
 ;;       sublimity-scroll-drift-length 6)
-
-;; Bind expand-region
-;;(global-set-key (kbd "C-=") 'er/expand-region)
 
 ;; Trigger paredit in lisp modes
 (add-hook 'lisp-mode-hook 'enable-paredit-mode)
