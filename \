@@ -1,46 +1,31 @@
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; _      `-._     `-.     `.   \      :      /   .'     .-'     _.-'      _ ;;
-;;  `--._     `-._    `-.    `.  `.    :    .'  .'    .-'    _.-'     _.--'  ;;
-;;       `--._    `-._   `-.   `.  \   :   /  .'   .-'   _.-'    _.--'	     ;;
-;; `--.__     `--._   `-._  `-.  `. `. : .' .'  .-'  _.-'   _.--'     __.--' ;;
-;; __    `--.__    `--._  `-._ `-. `. \:/ .' .-' _.-'  _.--'    __.--'    __ ;;
-;;   `--..__   `--.__   `--._ `-._`-.`_=_'.-'_.-' _.--'   __.--'   __..--'   ;;
-;; --..__   `--..__  `--.__  `--._`-q(-_-)p-'_.--'  __.--'  __..--'   __..-- ;;
-;;       ``--..__  `--..__ `--.__ `-'_) (_`-' __.--' __..--'  __..--''	     ;;
-;; ...___        ``--..__ `--..__`--/__/  \--'__..--' __..--''        ___... ;;
-;;       ```---...___    ``--..__`_(<_   _/)_'__..--''    ___...---'''	     ;;
-;; ```-----....._____```---...___(__\_\_|_/__)___...---'''_____.....-----''' ;;
-;;                                ____                               	     ;;
-;;          _________  ____ ___  / __/_  ______ ___  ____ ___________	     ;;
-;;         / ___/ __ \/ __ `__ \/ /_/ / / / __ `__ \/ __ `/ ___/ ___/	     ;;
-;;        / /__/ /_/ / / / / / / __/ /_/ / / / / / / /_/ / /__(__  ) 	     ;;
-;;        \___/\____/_/ /_/ /_/_/  \__, /_/ /_/ /_/\__,_/\___/____/  	     ;;
-;;                                /____/ 				     ;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-;; Comfymacs: They said Emacs could be anything, so I made it C O M F Y
-;; My goals in this configuration are two-fold:
-;; - Create the comfiest, most-modern UI possible, inspired by Spacemacs, Doom, and trendy Electron editors like VSCode and Atom.
-;; - Hone Emacs into the most powerful editor tool for me, based around my preference for Emacs-style, non-modal editing (*GASP*). 
+;; My goals in this Emacs configuration are two-fold:
+;; 1) I want to create the comfiest, most-modern UI possible (inspired by Spacemacs, Doom, and VSCode) without sacrificing quality and convienience.
+;; 2) I want to hone Emacs into the perfect tool for me, customizing it to fit my editing style and workflow.
 
 ;; TODO:
-;; 1) Leader keys with Hydra?
+;; 1) Evil mode transition (see below)
 ;; 2) Setup Projectile
 ;; 3) Add tern for JS (see how to integrate with js2-mode and company?)
 ;; 4) Fix Python setup
 ;; 5) Maybe copy J. Blanchard's format buffer function? (In rust setup page)
 
-;; Better defaults
-(setq user-full-name "Dylan DiGeronimo" ; Set user
-      user-mail-address "dylandigeronimo1@gmail.com"
-      frame-title-format '("%b")      ; Set window title to file name
-      inhibit-startup-screen t	; Hide startup screen and start on scratch buffer
-      show-paren-mode t	; Highlight matching parenthesis
-      global-visual-line-mode t	; Nice line-wrapping
-      make-backup-files nil)  ; Stop Emacs from creating backup files
+;; Evil mode transition checklist:
+;; - Set emacs mode default cursor to not be underscore
+;; - Make insert mode function like emacs
+;; - Bind jk to exit insert
+;; - Enable relative line numbering
 
-(setq-default cursor-type 'bar ; Set cursor to bar style
-	      cursor-in-non-selected-windows nil) ; Hide cursor in non-active windows
+;; Better defaults
+(setq user-full-name "Dylan DiGeronimo"	; Set user
+      user-mail-address "dylandigeronimo1@gmail.com"
+      frame-title-format '("%b")	; Set window title to file name
+      inhibit-startup-screen t		; Hide startup screen and start on scratch buffer
+      show-paren-mode t			; Highlight matching parenthesis
+      global-visual-line-mode t		; Nice line-wrapping
+      make-backup-files nil             ; Stop Emacs from creating backup files
+      )
+(setq cursor-type 'bar)		; Set cursor to bar style
+(setq-default cursor-in-non-selected-windows nil) ; Hide cursor in non-active windows
 (menu-bar-mode -1)			; Hide all the bars
 (tool-bar-mode -1)
 (scroll-bar-mode -1)
@@ -73,6 +58,7 @@
   (require 'use-package))
 
 ;; Package setups
+
 (use-package org			; Time to be studious
   :ensure t
   :mode ("\\.org\\'" . org-mode) 
@@ -174,9 +160,6 @@
 (use-package yasnippet-snippets		; What's a yas without snippets?
   :ensure t)
 
-(use-package delight			; Hiding labor est. 2018
-  :ensure t)
-
 (use-package elpy 			; Hisssss
   :ensure t
   ;; :mode ("\\.py\\'" . elpy-mode)
@@ -195,16 +178,23 @@
 (use-package evil			; Ugh
   :ensure t
   :init
-  (setq evil-default-state 'emacs)
-  ;; (evil-mode 1)
+  ;; (setq evil-default-state 'emacs)
+  (setq evil-emacs-state-cursor '("purple" bar))
+  (evil-mode 1)
   )
+
+(use-package evil-surround
+  :ensure t
+  :config
+  (global-evil-surround-mode))
+
 
 (use-package web-mode 			; HTML but better
   :ensure t
   :mode ("\\.html\\'" . web-mode) 
   :interpreter ("html" . web-mode))
 
-(use-package comment-dwim-2 		; Commenting: this time, it's personal
+(use-package comment-dwim-2 		; This time, it's personal
   :ensure t
   :bind
   (("M-;" . comment-dwim-2)))
@@ -221,6 +211,9 @@
   :ensure t
   :init
   (add-hook 'prog-mode-hook 'rainbow-delimiters-mode))
+
+(use-package delight			; Hiding labor est. 2018
+  :ensure t)
 
 (use-package js2-mode			; All the kids are doing it
   :ensure t
@@ -249,7 +242,13 @@
 (use-package racer			; T
   :ensure t)
 
-(use-package nlinum			; Getting line numbers on lock
+(setq racer-cmd "~/.cargo/bin/racer") ;; racer binary PATH
+(setq racer-rust-src-path "/home/dylan/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/src") ;; rust source code PATH
+(add-hook 'rust-mode-hook #'racer-mode)
+(add-hook 'racer-mode-hook #'eldoc-mode)
+(add-hook 'racer-mode-hook #'company-mode)
+
+(use-package nlinum
   :ensure t
   :init
   (add-hook 'prog-mode-hook 'nlinum-mode))
@@ -283,13 +282,6 @@
 (add-hook 'lisp-mode-hook 'enable-paredit-mode)
 (add-hook 'emacs-lisp-mode-hook 'enable-paredit-mode)
 (add-hook 'lisp-interaction-mode-hook 'enable-paredit-mode)
-
-;; Additional Rust setup
-(setq racer-cmd "~/.cargo/bin/racer") ;; racer binary PATH
-(setq racer-rust-src-path "/home/dylan/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/src") ;; rust source code PATH
-(add-hook 'rust-mode-hook #'racer-mode)
-(add-hook 'racer-mode-hook #'eldoc-mode)
-(add-hook 'racer-mode-hook #'company-mode)
 
 ;; Finally, keep custom variables in a seperate file that git will ignore
 (setq custom-file "~/.emacs.d/custom.el")
