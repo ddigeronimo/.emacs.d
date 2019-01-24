@@ -10,12 +10,12 @@
 ;; Comfymacs: They said Emacs could be anything, so I made it C O M F Y
 ;; My goals in this configuration are two-fold:
 ;; - Create the comfiest, most-modern UI possible, inspired by Spacemacs, Doom, and trendy modern editors like VSCode and Atom.
-;; - Hone Emacs into the most powerful editor tool for me, based around my preference for Emacs-style, non-modal editing (*GASP*). 
+;; - Hone Emacs into the most powerful editor tool for me, based around my preference for non-modal editing *GASP*. 
 
 ;; TODO:
 ;; 1) Leader keys with Hydra?
 ;; 2) Setup Projectile
-;; 3) Add tern for JS (see how to integrate with js2-mode and company?)
+;; 3) Finish JS setup
 ;; 4) Fix Python setup
 ;; 5) Maybe copy J. Blanchard's format buffer function? (In rust setup page)
 
@@ -45,6 +45,9 @@
     (buffer-string)))
 (setq scratch-message-program "fortune | cowsay")
 (setq initial-scratch-message (start-with-fortune))
+
+;; Rebind undo-tree-undo to M-/
+(global-set-key (kbd "M-/") 'undo-tree-redo)
 
 ;; Package.el stuff
 (require 'package)
@@ -212,10 +215,41 @@
   :init
   (add-hook 'prog-mode-hook 'rainbow-delimiters-mode))
 
-(use-package js2-mode			; All the kids are doing it
+(use-package js2-mode			; Trendy Javascript stuff incoming
   :ensure t
   :mode ("\\.js\\'" . js2-mode)
   :interpreter ("javascript" . js2-mode))
+
+(add-hook 'js2-mode-hook #'js2-imenu-extras-mode)
+
+(use-package js2-refactor
+  :ensure t)
+
+(add-hook 'js2-mode-hook #'js2-refactor-mode)
+(js2r-add-keybindings-with-prefix "C-c C-r")
+(define-key js2-mode-map (kbd "C-k") #'js2r-kill)
+
+;; Required to make xref-js2 work
+(use-package ag
+  :ensure t)
+
+(use-package xref-js2
+  :ensure t
+  :init)
+
+;; js-mode binds M-. which conflicts with xref-js2
+  (define-key js-mode-map (kbd "M-.") nil)
+  (add-hook 'js2-mode-hook (lambda ()
+			     (add-hook 'xref-backend-functions #'xref-js2-xref-backend nil t)))
+
+(use-package company-tern
+  :ensure t)
+
+(add-to-list 'company-backends 'company-tern)
+(add-hook 'js2-mode-hook #'tern-mode)
+;; Disable tern completion keybindings
+(define-key tern-mode-keymap (kbd "M-.") nil)
+(define-key tern-mode-keymap (kbd "M-,") nil)
 
 (use-package pdf-tools			; Bite me, Adobe
   :ensure t
