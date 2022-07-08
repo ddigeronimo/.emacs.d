@@ -12,6 +12,7 @@
 (menu-bar-mode -1)			; Hide all the bars
 (tool-bar-mode -1)
 (scroll-bar-mode -1)
+(linum-mode 1) ; Activate line numbers
 (electric-pair-mode t)		        ; Automatically complete delimiter pairs
 (fset 'yes-or-no-p 'y-or-n-p)		; Replace all yes/no promepts with y/n
 
