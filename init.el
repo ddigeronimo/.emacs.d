@@ -47,10 +47,10 @@
 ;; general.el?
 ;; replace vim packages:
 ;;   surround
-;;   commentary
 ;;   git-gutter (maybe magit handles this?)
 ;;   highlighted yank
 ;;   easymotion (maybe avy instead)?
+;;   easyalign?
 
 (use-package exec-path-from-shell	; Setup exec-path-from-shell to fix Mac $PATH issues
   :ensure t
@@ -75,8 +75,10 @@
   :init
   (which-key-mode))
 
-;; Evil mode setup inc. leader bindings, evil-collection, undo-tree, and org support
-(use-package evil-leader
+;; Evil mode setup inc. leader bindings, better undo/working redo w/
+;; undo-tree, support for different menus and major modes, and
+;; emulations of my favorite Vim plugins
+ (use-package evil-leader
   :ensure t
   :init
   (setq evil-want-keybinding nil) ; Required for evil-collection, must be loaded before evil and evil-leader
@@ -95,7 +97,7 @@
   (evil-leader/set-key "w o" 'delete-other-windows)
   ;; f - file commands
   (evil-leader/set-key "f f" 'find-file)
-  (evil-leader/set-key "f d" 'dired)
+  (evil-leader/set-key "f d" 'dired-jump)
   ;; b - buffer commands
   (evil-leader/set-key "b k" 'kill-buffer)
   (evil-leader/set-key "b l" 'list-buffers)
@@ -112,13 +114,13 @@
   (evil-mode 1)
   (global-evil-leader-mode 1))
 
-(use-package evil-collection
+(use-package evil-collection ; Adds vim keys to different major modes
   :after evil
   :ensure t
   :config
   (evil-collection-init))
 
-(use-package undo-tree
+(use-package undo-tree ; Use vim-style undo, plus enables C-r redo in evil mode
   :after evil
   :ensure t
   :config
@@ -126,13 +128,19 @@
   (global-undo-tree-mode 1)
   (setq evil-want-fine-undo t))
 
-(use-package evil-org
+(use-package evil-org ; Adds vim keys to org-mode (not included within evil-collection)
   :ensure t
   :after org
   :hook (org-mode . (lambda () evil-org-mode))
   :config
   (require 'evil-org-agenda)
   (evil-org-agenda-set-keys))
+
+(use-package evil-commentary ; Emulation of tpope's vim commentary
+  :after evil
+  :ensure t
+  :config
+  (evil-commentary-mode 1))
 
 ;; Finally, keep custom variables in a seperate file that git will ignore
 (setq custom-file "~/.emacs.d/custom.el")
