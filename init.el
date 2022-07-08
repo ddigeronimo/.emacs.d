@@ -60,6 +60,7 @@
   :init
   (which-key-mode))
 
+;; Evil mode setup inc. leader bindings, evil-collection, undo-tree, and org support
 (use-package evil-leader
   :ensure t
   :init
@@ -113,7 +114,21 @@
 ;;   git-gutter (maybe magit handles this?)
 ;;   highlighted yank
 ;;   easymotion (maybe avy instead)?
+(use-package undo-tree
+  :after evil
+  :ensure t
+  :config
+  (evil-set-undo-system 'undo-tree)
+  (global-undo-tree-mode 1)
+  (setq evil-want-fine-undo t))
 
+(use-package evil-org
+  :ensure t
+  :after org
+  :hook (org-mode . (lambda () evil-org-mode))
+  :config
+  (require 'evil-org-agenda)
+  (evil-org-agenda-set-keys))
 
 ;; Finally, keep custom variables in a seperate file that git will ignore
 (setq custom-file "~/.emacs.d/custom.el")
