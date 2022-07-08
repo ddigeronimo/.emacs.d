@@ -39,6 +39,18 @@
 
 ;; Package setups
 
+;; TODO:
+;; helm/ivy/some completion framework
+;; projectile
+;; go support
+;; general.el?
+;; replace vim packages:
+;;   surround
+;;   commentary
+;;   git-gutter (maybe magit handles this?)
+;;   highlighted yank
+;;   easymotion (maybe avy instead)?
+
 (use-package exec-path-from-shell	; Setup exec-path-from-shell to fix Mac $PATH issues
   :ensure t
   :if (memq window-system '(mac ns x))
@@ -48,11 +60,13 @@
 
 (use-package org
   :ensure t
+  :defer t
   :mode ("\\.org\\'" . org-mode) 
   :interpreter ("org" . org-mode))
 
 (use-package magit
-  :ensure t)
+  :ensure t
+  :defer t)
 
 (use-package which-key
   :ensure t
@@ -103,17 +117,6 @@
   :config
   (evil-collection-init))
 
-;; helm/ivy
-;; projectile
-;; go support
-;; fix undos - download dependency
-;; general.el?
-;; replace vim packages:
-;;   surround
-;;   commentary
-;;   git-gutter (maybe magit handles this?)
-;;   highlighted yank
-;;   easymotion (maybe avy instead)?
 (use-package undo-tree
   :after evil
   :ensure t
