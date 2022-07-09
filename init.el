@@ -1,19 +1,19 @@
 ;; Better defaults
-(setq user-full-name "Dylan DiGeronimo" ; Set user
-      user-mail-address "dylandigeronimo1@gmail.com"
-      frame-title-format '("%b")      ; Set window title to file name
-      inhibit-startup-screen t	; Hide startup screen and start on scratch buffer
-      show-paren-mode t	; Highlight matching parenthesis
-      global-visual-line-mode t	; Nice line-wrapping
-      backup-directory-alist '(("." . "~/.emacs.d/backups"))) ; Save backups to a single location rather than leaving them in the dir of the original
+(setq-default user-full-name "Dylan DiGeronimo"				; Set user
+	      user-mail-address "dylandigeronimo1@gmail.com"
+	      frame-title-format '("%b")				; Set window title to file name
+	      inhibit-startup-screen t					; Hide startup screen and start on scratch buffer
+	      backup-directory-alist '(("." . "~/.emacs.d/backups")))	; Save backups to a single location rather than leaving them in the dir of the original
 
-(setq-default cursor-type 'box ; Set cursor to bar style
-	      cursor-in-non-selected-windows nil) ; Hide cursor in non-active windows
+;; Global modes
 (menu-bar-mode -1)			; Hide all the bars
 (tool-bar-mode -1)
 (scroll-bar-mode -1)
-(linum-mode 1) ; Activate line numbers
-(electric-pair-mode t)		        ; Automatically complete delimiter pairs
+(add-hook 'text-mode-hook 'linum-mode)	; Activate line numbers
+(add-hook 'prog-mode-hook 'linum-mode)
+(show-paren-mode t)			; Highlight matching parenthesis
+(global-visual-line-mode t)		; Nice line-wrapping
+(electric-pair-mode t)			; Automatically complete delimiter pairs
 (fset 'yes-or-no-p 'y-or-n-p)		; Replace all yes/no promepts with y/n
 
 ;; Transparent titlebar - enable on Macs
