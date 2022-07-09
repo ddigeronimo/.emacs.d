@@ -109,10 +109,13 @@
 (use-package evil
   :after evil-leader
   :ensure t
-  :init
   :config
   (evil-mode 1)
-  (global-evil-leader-mode 1))
+  (global-evil-leader-mode 1)
+  ;; Cursor setup
+  (setq evil-normal-state-cursor '(box "black")
+	evil-insert-state-cursor '(bar "black")
+	evil-emacs-state-cursor '(box "purple")))
 
 (use-package evil-collection ; Adds vim keys to different major modes
   :after evil
