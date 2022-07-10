@@ -42,9 +42,7 @@
 
 ;; TODO:
 ;; helm/ivy/some completion framework
-;; projectile
 ;; go support
-;; general.el?
 ;; replace vim packages:
 ;;   surround
 ;;   git-gutter (maybe magit handles this?)
@@ -75,6 +73,11 @@
   :init
   (which-key-mode))
 
+(use-package projectile
+  :ensure t
+  :init
+  (projectile-mode +1))
+
 ;; Evil mode setup inc. leader bindings, better undo/working redo w/
 ;; undo-tree, support for different menus and major modes, and
 ;; emulations of my favorite Vim plugins
@@ -85,16 +88,7 @@
   :config
   (evil-leader/set-leader "<SPC>") ; Set leader to space
   ;; w - window commands
-  (evil-leader/set-key "w v" 'evil-window-vsplit)
-  (evil-leader/set-key "w s" 'evil-window-split)
-  (evil-leader/set-key "w h" 'evil-window-left)
-  (evil-leader/set-key "w j" 'evil-window-down)
-  (evil-leader/set-key "w k" 'evil-window-up)
-  (evil-leader/set-key "w l" 'evil-window-right)
-  (evil-leader/set-key "w <" 'evil-window-decrease-width)
-  (evil-leader/set-key "w >" 'evil-window-increase-width)
-  (evil-leader/set-key "w q" 'evil-window-delete)
-  (evil-leader/set-key "w o" 'delete-other-windows)
+  (evil-leader/set-key "w" 'evil-window-map)
   ;; f - file commands
   (evil-leader/set-key "f f" 'find-file)
   (evil-leader/set-key "f d" 'dired-jump)
@@ -104,7 +98,9 @@
   (evil-leader/set-key "b b" 'switch-to-buffer)
   (evil-leader/set-key-for-mode 'emacs-lisp-mode "b s" 'eval-buffer)
   ;; g - git commands
-  (evil-leader/set-key "g" 'magit))
+  (evil-leader/set-key "g" 'magit)
+  ;; p - projectile commands
+  (evil-leader/set-key "p" 'projectile-command-map))
 
 (use-package evil
   :after evil-leader
