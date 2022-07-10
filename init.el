@@ -23,6 +23,18 @@
 (add-to-list 'default-frame-alist
              '(ns-appearance . light)) ;; or dark - depending on your theme
 
+;; WSL-specific setup
+(when (and (eq system-type 'gnu/linux)
+	   (getenv "WSLENV"))
+
+  (let ((cmd-exe "/mnt/c/Windows/System32/cmd.exe")
+	(cmd-args '("/c" "start")))
+    (when (file-exists-p cmd-exe)
+      (setq browse-url-generic-program cmd-exe
+	    browse-url-generic-args cmd-args
+	    browse-url-browser-function 'browse-url-generic
+	    search-web-default-browser 'browse-url-generic))))
+
 ;; Package.el stuff
 (require 'package)
 (add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/"))
