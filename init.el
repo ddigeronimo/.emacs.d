@@ -57,7 +57,7 @@
 
 ;; TODO:
 ;; helm/ivy/some completion framework
-;; go support
+;; more go support
 ;; replace vim packages:
 ;;   git-gutter (maybe magit handles this?)
 ;;   highlighted yank
@@ -93,6 +93,17 @@
   :ensure t
   :init
   (projectile-mode +1))
+
+(use-package go-mode
+  :ensure t
+  :mode ("\\.go\\'" . go-mode)
+  :interpreter ("go" . go-mode)
+  :init
+  (setq gofmt-command "goimports") ; Use goimports instead of gofmt (includes gofmt functionality)
+  (defun my-go-mode-hook ()
+    (add-hook 'before-save-hook 'gofmt-before-save)
+    (setq tab-width 4))
+  (add-hook 'go-mode-hook 'my-go-mode-hook))
 
 ;; Evil mode setup inc. leader bindings, better undo/working redo w/
 ;; undo-tree, support for different menus and major modes, and
