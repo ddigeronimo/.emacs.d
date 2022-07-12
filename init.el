@@ -76,7 +76,9 @@
   :ensure t
   :defer t
   :mode ("\\.org\\'" . org-mode) 
-  :interpreter ("org" . org-mode))
+  :interpreter ("org" . org-mode)
+  :init
+  (setq org-agenda-restore-windows-after-quit 't))
 
 (use-package magit
   :ensure t
