@@ -11,3 +11,6 @@ snippets
 transient
 *~undo-tree~
 projectile-bookmarks.eld
+ido.last
+undo
+tramp
