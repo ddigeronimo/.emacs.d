@@ -137,6 +137,8 @@
 (use-package undo-tree ; Use vim-style undo, plus enables C-r redo in evil mode
   :after evil
   :ensure t
+  :init
+  (setq undo-tree-history-directory-alist '(("." . "~/.emacs.d/undo")))
   :config
   (evil-set-undo-system 'undo-tree)
   (global-undo-tree-mode 1)
