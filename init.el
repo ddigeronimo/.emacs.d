@@ -6,15 +6,15 @@
 	      backup-directory-alist '(("." . "~/.emacs.d/backups")))	; Save backups to a single location rather than leaving them in the dir of the original
 
 ;; Global modes
-(menu-bar-mode -1)			; Hide all the bars
+(menu-bar-mode -1)					; Hide all the bars
 (tool-bar-mode -1)
 (scroll-bar-mode -1)
-(show-paren-mode t)			; Highlight matching parenthesis
-(global-visual-line-mode t)		; Nice line-wrapping
-(electric-pair-mode t)			; Automatically complete delimiter pairs
-(fset 'yes-or-no-p 'y-or-n-p)		; Replace all yes/no promepts with y/n
 (setq display-line-numbers-type 'relative)
 (add-hook 'prog-mode-hook 'display-line-numbers-mode)	; Activate line numbers
+(show-paren-mode t)					; Highlight matching parenthesis
+(global-visual-line-mode t)				; Nice line-wrapping
+(electric-pair-mode t)					; Automatically complete delimiter pairs
+(fset 'yes-or-no-p 'y-or-n-p)				; Replace all yes/no promepts with y/n
 ;; Emacs 29 scroll mode
 (if (>= emacs-major-version 29)
     (pixel-scroll-precision-mode))
