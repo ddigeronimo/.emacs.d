@@ -115,7 +115,9 @@
   (evil-leader/set-key "b b" 'switch-to-buffer)
   (evil-leader/set-key-for-mode 'emacs-lisp-mode "b s" 'eval-buffer)
   ;; g - git commands
-  (evil-leader/set-key "g" 'magit)
+  (evil-leader/set-key "g m" 'magit-file-dispatch)
+  (evil-leader/set-key "g s" 'magit-status)
+  (evil-leader/set-key "g d" 'magit-diff-buffer-file)
   ;; p - projectile commands
   (evil-leader/set-key "p" 'projectile-command-map))
 
