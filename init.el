@@ -15,6 +15,9 @@
 (global-visual-line-mode t)		; Nice line-wrapping
 (electric-pair-mode t)			; Automatically complete delimiter pairs
 (fset 'yes-or-no-p 'y-or-n-p)		; Replace all yes/no promepts with y/n
+;; Emacs 29 scroll mode
+(if (>= emacs-major-version 29)
+    (pixel-scroll-precision-mode))
 
 ;; Transparent titlebar - enable on Macs
 (add-to-list 'default-frame-alist	
