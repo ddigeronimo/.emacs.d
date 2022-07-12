@@ -59,7 +59,6 @@
 ;; helm/ivy/some completion framework
 ;; go support
 ;; replace vim packages:
-;;   surround
 ;;   git-gutter (maybe magit handles this?)
 ;;   highlighted yank
 ;;   easymotion (maybe avy instead)?
@@ -157,6 +156,12 @@
   :ensure t
   :config
   (evil-commentary-mode 1))
+
+(use-package evil-surround
+  :after evil
+  :ensure t
+  :config
+  (global-evil-surround-mode 1))
 
 ;; Finally, keep custom variables in a seperate file that git will ignore
 (setq custom-file "~/.emacs.d/custom.el")
