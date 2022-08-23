@@ -14,3 +14,13 @@ projectile-bookmarks.eld
 ido.last
 undo
 tramp
+emacs-desktop
+eln-cache
+emojis
+forge-database.sqlite
+request
+
+.dap-breakpoints
+.emacs.desktop.lock
+.lsp-session-v1
+.org-id-locations
